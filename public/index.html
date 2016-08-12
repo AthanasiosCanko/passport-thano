@@ -1,0 +1,67 @@
+<html align="middle">
+
+	<head>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.css"/>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	</head>
+	
+	<script>
+		$("document").ready(function() {
+			$(".btn-success").on("click", function() {
+				$.ajax({
+					url: "/users",
+					type: "POST",
+					dataType: "json",
+					data: {
+						username: $("#username").val(),
+						password: $("#password").val()
+					},
+					success: function(json) {
+						$("#signup").html(JSON.stringify(json));
+					},
+					error: function(err) {
+						$("#signup").html(err);
+					}
+				});
+			});
+			
+			$(".btn-primary").on("click", function() {
+				$.ajax({
+					url: "/login",
+					type: "GET",
+					success: function(json) {
+						$("#login").html(JSON.stringify(json.message));
+					},
+					error: function(err) {
+						$("#login").html(err);
+					}
+				});
+			});
+		});
+	</script>
+
+	<style>
+		body {
+			padding: 10%;
+		}
+	</style>
+
+	<body>
+		<div class="well">
+			<form>
+				<h1> Passport Sign up & Log in </h1>
+				<input type="field" class="form-control" id="username" placeholder="Type username here..." required><br>
+				<input type="password" class="form-control" id="password" placeholder="Type password here..." required><br>
+				<button class="btn btn-success"> Sign up </button>
+			</form>
+			<p id="signup"></p>
+		</div>
+		
+		<div class="well">
+			<h5> If sign up successful, try logging in: </h5>
+			<button class="btn btn-primary"> Log in </button>
+			<p id="login"></p>
+		</div>
+	</body>
+
+</html>
