@@ -7,7 +7,7 @@ var User = require('./user-model.js');
 
 var app = new express();
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(passport.initialize());
 app.use(express.static("public"));
 
@@ -33,7 +33,6 @@ var strategy = new BasicStrategy(function(username, password, callback) {
 });
 
 passport.use(strategy);
-
 
 // POST request to sign up
 app.post("/users", function(req, res) {
@@ -100,12 +99,13 @@ app.post("/users", function(req, res) {
 				password: hash
 			});
 			
+			// Getting a problem here...
 			User.create(user, function(err, new_user) {
 				if (err) {
 					res.status(500).json({message: "Internal Server Error!"});
 					return;
 				}
-				res.json(user);
+				res.status(200).json(user);
 			});
 		});
 	
